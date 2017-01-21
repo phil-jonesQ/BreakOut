@@ -6,16 +6,17 @@ Ball ball;
 
 
 void mousePressed() {
-   adj = true; 
+    noLoop();
 }
 
 
 void setup () {
-  size (600, 400);
+  size (600, 200);
   adj=false;
+  adj = true;
   buildWall();
   ball = new Ball();
-  frameRate(100);
+  frameRate(50);
 }
 
 

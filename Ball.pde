@@ -55,7 +55,7 @@ class Ball {
       x=x-speed;
     }
 
-    // Constraint
+    //println("RightEdge is " + rightEdge + " LeftEdgeis " +leftEdge + " BottomEdge is " + bottomEdge + " TopEdge is " + topEdge);
 
     if (x>width) {
       rightEdge=true;
@@ -88,7 +88,12 @@ class Ball {
     for (int i=0; i < wall.size(); i++) {
       float brickX = wall.get(i).getX();
       float brickY = wall.get(i).getY();
-      float d = dist(x+r/2, y, brickX+scl/2, brickY);
+      float d;
+      if (rightEdge && bottomEdge) {
+        d = dist(x-r/2, y-r/2, brickX, brickY);
+      } else {
+        d = dist(x+r/2, y-r/2, brickX+scl/2, brickY);
+      }
       //println (d);
       if (d < 10) {
         wall.remove(i);
