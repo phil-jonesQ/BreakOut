@@ -18,7 +18,7 @@ class Ball {
     x=width/2;
     y=height/2;
     r=16;
-    speed=3;
+    speed=5;
   }
 
 
@@ -38,7 +38,7 @@ class Ball {
       up=false;
       left=false;
       right=false;
-    }   
+    } 
     if (down && !bottomEdge) {
       y=y+speed;
     }
@@ -82,7 +82,6 @@ class Ball {
       topEdge=true;
       down=true;
       bottomEdge=false;
-     
     }
 
     ballCollidesWithWall();
@@ -99,18 +98,28 @@ class Ball {
     //Does the ball hit a wall element, if so, remove it and react
     //Going Up Version
     if (bottomEdge) {
-      for (int i=0; i < wall.size(); i++) {
+      for (int i=wall.size()-1; i > 0; i--) {
+        float rectW=scl;
+        float rectH=scl/3;
         float brickX = wall.get(i).getX();
         float brickY = wall.get(i).getY();
+        float distX = Math.abs(x - brickX-(rectW/2));
+        float distY = Math.abs(y - brickY-(rectH/2));
         float d;
-        if (rightEdge && bottomEdge) {
-          d = dist(x-r/2, y-r/2, brickX, brickY+scl/6);
-        } else {
-          d = dist(x+r/2, y-r/2, brickX+scl/2, brickY+scl/6);
+        boolean wallRemove=false;
+        //println (x, y, brickX, brickY);
+        if (distX > (rectW/2 + r)) { 
+          wallRemove=false;
         }
-        //println (d);
-        if (d < r) {
+        if (distY > (rectH/2 + r)) { 
+          wallRemove=false;
+        }
+        if (distY <= (rectH/2) && distX <= (rectW/2)) { 
+          wallRemove=true;
+        }
+        if (wallRemove) {
           wall.remove(i);
+          wallRemove=false;
           topEdge=true;
           down=true;
           bottomEdge=false;
@@ -118,20 +127,27 @@ class Ball {
         }
       }
     }
-    //Going Down Version
     if (topEdge) {
-      //print("in down collision detection");
-      for (int i=0; i < wall.size(); i++) {
+      for (int i=wall.size()-1; i >= 0; i--) {
+        float rectW=scl;
+        float rectH=scl/3;
         float brickX = wall.get(i).getX();
         float brickY = wall.get(i).getY();
+        float distX = Math.abs(x - brickX-(rectW/2));
+        float distY = Math.abs(y - brickY-(rectH/2));
         float d;
-        if (rightEdge && topEdge) {
-          d = dist(x-r/2, y+r/2, brickX, brickY-scl/6);
-        } else {
-          d = dist(x+r/2, y+r/2, brickX+scl/2, brickY-scl/6);
+        boolean wallRemove=false;
+        //println (x, y, brickX, brickY);
+        if (distX > (rectW/2 + r)) { 
+          wallRemove=false;
         }
-        //println (d);
-        if (d < r) {
+        if (distY > (rectH/2 + r)) { 
+          wallRemove=false;
+        }
+        if (distY <= (rectH/2) && distX <= (rectW/2)) { 
+          wallRemove=true;
+        }
+        if (wallRemove) {
           wall.remove(i);
           bottomEdge=true;
           up=true;
@@ -149,8 +165,6 @@ class Ball {
     float batY = bat.getY();
     float distX = Math.abs(x - batX-rectW/2);
     float distY = Math.abs(y - batY-rectH/2);
-    //var distX = Math.abs(circle.x - rect.x-rect.w/2);
-    //var distY = Math.abs(circle.y - rect.y-rect.h/2);
     if (distX > (rectW/2 + r)) { 
       return false;
     }
@@ -163,20 +177,12 @@ class Ball {
     if (distY <= (rectH/2)) { 
       return true;
     }
-    //float d = dist(x, y+r/2, batX+scl*4, batY-scl/2); //right edge
-    //float d1 = dist(x, y+r/2, batX+(scl*4)/2, batY-scl/2); //middle
-    //float d2 = dist(x, y+r/2, batX+scl, batY-scl/2); //left edge
-    //println(d);
-    //if (d < 3 || d1 < 3 || d2 < 3) {
-    //  bottomEdge=true;
-    //  up=true;
-    //  topEdge=false;
-    //  x=x+0.55;
-    //}
     return false;
   }
   boolean checkDead() {
-   if (y>height) { return true;}
-   return false;
+    if (y>height) { 
+      return true;
+    }
+    return false;
   }
 }

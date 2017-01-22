@@ -2,6 +2,7 @@ ArrayList<Brick> wall = new ArrayList<Brick>();
 public int scl = 30;
 boolean adj;
 boolean dead;
+boolean start;
 Ball ball;
 Bat bat;
 
@@ -21,12 +22,16 @@ void setup () {
   bat = new Bat();
   adj=true;
   dead=false;
+  start=false;
   frameRate(50);
 }
 
 
 
 void draw () {
+  if (!start) {
+    noLoop();
+  }
   background(0);
   drawWall();
   drawBall();
@@ -84,16 +89,6 @@ void moveBat() {
       bat.move(false);
     }
   }
-
-  //
-
-  //if (mouseX > width/2-scl) {
-  //  bat.move(true);
-  //}
-  //if (mouseX < width/2-scl) {
-
-  //  bat.move(false);
-  //}
 }
 
 void checkGameOver() {
@@ -107,7 +102,7 @@ void removeBricks() {
   for (int i=0; i < wall.size(); i++) {
     float x = wall.get(i).getX();
     float y = wall.get(i).getY();
-    if (x == width/2 || x == width/4 || x == width-scl*2) {
+    if (x == width/2-scl || x == width/2 || x == width-scl-(scl*2) || x == scl*2) {
       wall.remove(i);
     }
   }
@@ -126,4 +121,5 @@ void init() {
   adj=true;
   ball = new Ball();
   bat = new Bat();
+  start=true;
 }

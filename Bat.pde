@@ -10,7 +10,7 @@ class Bat {
 
     w=scl*4;
     h=scl/2;
-    x=width/2-scl;
+    x=width/2-scl*2;
     y=height-h;
     speed=5;
   }
