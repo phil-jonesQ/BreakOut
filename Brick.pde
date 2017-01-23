@@ -7,7 +7,6 @@ class Brick {
   float w2;
 
   Brick(float xIn, float yIn) {
-
     x = xIn;
     y = yIn;
     w = scl;

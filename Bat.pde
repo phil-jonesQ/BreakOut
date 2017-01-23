@@ -10,46 +10,37 @@ class Bat {
 
     w=scl*4;
     h=scl/2;
-    x=width/2-scl;
+    x=width/2-scl*2;
     y=height-h;
-    speed=5;
+    speed=10;
   }
 
-
   void show() {
-
     noStroke();
     fill(255);
     rect(x, y, w, h);
   }
 
-
-  void move(boolean direction) {
-
-    if (direction) {
-
+  void move(float direction) {
+    if (direction==1) {
       x=x+speed;
-    } else {
+    }
+    if (direction==-1) {
       x=x-speed;
     }
-
-    if (x>width-w) {
-
-      x = width-w;
+    if (x>width-scl*2) {
+      x = width-scl*2;
     }
-    if (x<0) {
-
-      x = 0;
+    if (x<0-scl*2) {
+      x = -scl*2;
     }
   }
 
   float getX() {
-
     return x;
   }
 
   float getY() {
-
     return y;
   }
 }
