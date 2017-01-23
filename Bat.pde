@@ -12,7 +12,7 @@ class Bat {
     h=scl/2;
     x=width/2-scl*2;
     y=height-h;
-    speed=5;
+    speed=8;
   }
 
 
@@ -24,12 +24,12 @@ class Bat {
   }
 
 
-  void move(boolean direction) {
-
-    if (direction) {
-
+  void move(float direction) {
+    if (direction==1) {
       x=x+speed;
-    } else {
+    }
+
+    if (direction==-1) {
       x=x-speed;
     }
 
