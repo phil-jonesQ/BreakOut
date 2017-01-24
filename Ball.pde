@@ -13,12 +13,15 @@ class Ball {
   boolean right;
   boolean left;
   float randomizer;
+  float randomizer1;
 
   Ball() {
     x=width/2;
     y=height/2;
     r=16;
-    speed=4.5;
+    speed=3.5;
+    randomizer=random(1.5, 1.9);
+    randomizer1=random(1.5, 2.1);
   }
   void show() {
     noStroke();
@@ -26,7 +29,8 @@ class Ball {
     ellipse(x, y, r, r);
   }
   void move(boolean adj) {   
-    randomizer=random(0, 2);
+
+    //println(randomizer);
     //Start or adjust ball bounce point
     if (adj) {
       down=true;
@@ -35,19 +39,19 @@ class Ball {
       right=false;
     } 
     if (down && !bottomEdge) {
-      y=y+speed;
+      y=y+speed+randomizer;
     }
 
     if (up && !topEdge) {
-      y=y-speed;
+      y=y-speed*randomizer1;
     }
 
     if (right && !rightEdge) {
-      x=x+speed;
+      x=x+speed*randomizer;
     }
 
     if (left && !leftEdge) {
-      x=x-speed;
+      x=x-speed*randomizer1;
     }
     //Debug
     //println("RightEdge is " + rightEdge + " LeftEdgeis " +leftEdge + " BottomEdge is " + bottomEdge + " TopEdge is " + topEdge);
@@ -85,6 +89,8 @@ class Ball {
 
     ballCollidesWithWall();
     if (ballCollidesWithBat()) {
+      randomizer=random(1.3, 2.1);
+      randomizer1=random(1.5, 2.1);
       bottomEdge=true;
       up=true;
       down=false;
@@ -95,19 +101,20 @@ class Ball {
         left=false;
         rightEdge=false;
         leftEdge=true;
-        x=x-random(0.5, 5);
+        randomizer=randomizer+ballOnBatPos/100;
       } else if (ballOnBatPos < 45) { //Ball hits left part
         left=true;
         right=false;
         rightEdge=true;
         leftEdge=false;
-        x=x+random(0.5, 5);
+        randomizer=randomizer+ballOnBatPos/100;
       } else { //Ball is about centre
         bottomEdge=true;
         up=true;
         right=true;
         left=false;
         topEdge=false;
+        randomizer=randomizer+ballOnBatPos/100;
       }
       topEdge=false;
       //x=x-0.55;
@@ -135,6 +142,7 @@ class Ball {
           wallRemove=true;
         }
         if (wallRemove) {
+          score=score+1;
           wall.remove(i);
           wallRemove=false;
           topEdge=true;
@@ -163,6 +171,7 @@ class Ball {
           wallRemove=true;
         }
         if (wallRemove) {
+          score=score+1;
           wall.remove(i);
           wallRemove=false;
           bottomEdge=true;

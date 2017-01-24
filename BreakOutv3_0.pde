@@ -8,19 +8,22 @@ public int scl = 30;
 public int level;
 public int rowAmnt=8;
 public int lives;
+public int score;
 boolean adj;
 boolean dead;
 boolean start;
+boolean running;
 Ball ball;
 Bat bat;
 PFont f;
 
-
+//Mouse Pressed Resets Game
 void mousePressed() {
   noLoop();
   init();
   loop();
 }
+
 
 
 void setup () {
@@ -34,6 +37,7 @@ void setup () {
   adj=true;
   dead=false;
   start=false;
+  running=false;
   f = createFont("Arial", 50, true);
   lives=4;
 }
@@ -41,6 +45,7 @@ void setup () {
 
 
 void draw () {
+  //println(start);
   if (!start) {
     noLoop();
   }
@@ -100,14 +105,19 @@ void moveBat() {
     if (keyCode == LEFT && keyPressed) {
       bat.move(-1);
     }
+    if (keyCode == UP && keyPressed && !adj && !running) {
+      adj =true;
+      running=true;
+    }
   }
 }
 
 void checkGameOver() {
   if (ball.checkDead()) {
     lives=lives-1;
-    start=false;
-    partialInit();    
+    adj=false;
+    running=false;
+    partialInit();
   } 
   if (lives <=0 ) {
     pushMatrix();
@@ -116,6 +126,7 @@ void checkGameOver() {
     textAlign(CENTER);
     text("GAME OVER!!", width/2, height/2);
     text("CLICK TO TRY AGAIN!!", width/2, height/2-scl*2);
+    text("YOU DESTROYED " + score + " BRICKS AND GOT TO LEVEL " + level,width/2, height/2-scl*3); 
     stroke(255);
     noLoop();
     popMatrix();
@@ -165,17 +176,17 @@ void init() {
   destroyWall();
   level=1;
   lives=4;
+  score=0;
   buildWall();
   removeBricks();
   adj=true;
   ball = new Ball();
   bat = new Bat();
+  running=true;
   start=true;
 }
 
 void partialInit() {
   ball = new Ball();
   bat = new Bat();
-  start=true;
-  adj=true;
 }
